@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ma boutique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Bienvenue sur ma boutique</h1>
+<a href="Panier.html" id="panier">Panier : 0</a>
+
+<h2>Produits disponibles</h2>
+
+<div>
+    <img src="images/imglea.png" alt="Mademoiselle Léa">
+
+    <h3>Mademoiselle Léa</h3>
+    <p>Prix : 1 puff</p>
+
+    <button class="btn-acheter">Acheter</button>
+    <button onclick="location.href='info.html'">Plus d’informations</button>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let panier = JSON.parse(localStorage.getItem("panier")) || [];
+
+    const affichage = document.getElementById("panier");
+    affichage.textContent = "Panier : " + panier.length;
+
+    document.querySelectorAll(".btn-acheter").forEach(function(bouton) {
+        bouton.addEventListener("click", function() {
+
+           const nom = this.parentElement.querySelector("h3").textContent;
+const prixTexte = this.parentElement.querySelector("p").textContent;
+const prix = prixTexte.replace(/[^\d]/g, ""); // récupère le nombre
+
+panier.push({ nom: nom, prix: prix });
+
+            localStorage.setItem("panier", JSON.stringify(panier));
+
+            affichage.textContent = "Panier : " + panier.length;
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>

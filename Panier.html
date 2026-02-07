@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon panier</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Mon panier</h1>
+
+<ul id="liste"></ul>
+<h2 id="total"></h2>
+
+<button onclick="viderPanier()">Vider le panier</button>
+<br><br>
+<a href="index.html">Retour boutique</a>
+
+<script>
+let panier = JSON.parse(localStorage.getItem("panier")) || [];
+const liste = document.getElementById("liste");
+const totalAffichage = document.getElementById("total");
+
+let total = 0;
+
+panier.forEach((produit, index) => {
+
+    const li = document.createElement("li");
+    li.textContent = produit.nom + " - " + produit.prix + " puff ";
+
+    const supprimer = document.createElement("button");
+    supprimer.textContent = "Supprimer";
+    supprimer.onclick = () => supprimerArticle(index);
+
+    li.appendChild(supprimer);
+    liste.appendChild(li);
+
+    total += Number(produit.prix);
+});
+
+totalAffichage.textContent = "Total : " + total + " puff";
+
+function supprimerArticle(index){
+    panier.splice(index,1);
+    localStorage.setItem("panier", JSON.stringify(panier));
+    location.reload();
+}
+
+function viderPanier(){
+    localStorage.removeItem("panier");
+    location.reload();
+}
+</script>
+
+</body>
+</html>
